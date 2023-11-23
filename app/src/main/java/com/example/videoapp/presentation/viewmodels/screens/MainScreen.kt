@@ -1,20 +1,16 @@
 package com.example.videoapp.presentation.viewmodels.screens
 
 import ExoPlayerScreen
+import android.view.View
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.videoapp.common.ROUTES
 import com.example.videoapp.presentation.viewmodels.VideosListViewModel
@@ -32,13 +28,14 @@ fun MainScreen(videosListViewModel: VideosListViewModel) {
                 composable(ROUTES.VIDEOS_SCREEN) {
                     VideosScreen(
                         videosListViewModel
-                    ) { html ->
-                        videosListViewModel.getVideoUrl(html)
+                    ) { video ->
+                        videosListViewModel.selectedVideo.value = video
+                        videosListViewModel.getVideoUrl(video.videos[0].embed)
                         navController.navigate(ROUTES.PLAYING_VIDEO_SCREEN)
                     }
                 }
                 composable(ROUTES.PLAYING_VIDEO_SCREEN) {
-                    ExoPlayerScreen(navController,videosListViewModel.videoURL.value)
+                    ExoPlayerScreen(navController,videosListViewModel.videoURL.value, videosListViewModel.selectedVideo.value.title,videosListViewModel.selectedVideo.value.competition)
                 }
             }
         }

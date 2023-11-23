@@ -18,6 +18,7 @@ class VideosListViewModel @Inject constructor(
     private val videosUseCases: VideosUseCases
 ) : ViewModel() {
     val videoURL = mutableStateOf("")
+    val selectedVideo = mutableStateOf(VideoResponse())
     private val TAG = "VideosListViewModel"
 
     private val _videosState: MutableStateFlow<PagingData<VideoResponse>> =

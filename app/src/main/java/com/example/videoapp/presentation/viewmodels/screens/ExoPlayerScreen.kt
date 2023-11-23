@@ -2,20 +2,31 @@ import android.util.Log
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavHostController
+import com.example.videoapp.presentation.viewmodels.VideosListViewModel
 import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
@@ -27,12 +38,15 @@ import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSource
 
 @Composable
-fun ExoPlayerScreen(navController: NavHostController, videoURL : String) {
+fun ExoPlayerScreen(navController: NavHostController, videoUrl: String, videoTitle : String, videoDescription : String) {
     BackHandler(true) {
         // Or do nothing
         navController.navigateUp()
     }
-    Surface(modifier = Modifier.fillMaxSize(), color = Color.Black) {
+    Column(modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         val context = LocalContext.current
         val lifecycleOwner = rememberUpdatedState(LocalLifecycleOwner.current)
 //        val exoPlayer = ExoPlayer.Builder(context).build()
@@ -52,7 +66,7 @@ fun ExoPlayerScreen(navController: NavHostController, videoURL : String) {
                         defaultDataSourceFactory
                     )
                     val source = ProgressiveMediaSource.Factory(dataSourceFactory)
-                        .createMediaSource(MediaItem.fromUri(videoURL))
+                        .createMediaSource(MediaItem.fromUri(videoUrl))
 
                     setMediaSource(source)
                     prepare()
@@ -63,7 +77,7 @@ fun ExoPlayerScreen(navController: NavHostController, videoURL : String) {
         exoPlayer.repeatMode = Player.REPEAT_MODE_ONE
         DisposableEffect(key1 =
         AndroidView(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.height(600.dp).fillMaxWidth(),
             factory = {
                 StyledPlayerView(context).apply {
                     resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
@@ -95,6 +109,18 @@ fun ExoPlayerScreen(navController: NavHostController, videoURL : String) {
                     lifecycle.removeObserver(observer)
                 }
             }
+        )
+
+        Text(
+            text = videoTitle,
+            color = MaterialTheme.colorScheme.primary,
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+        Text(
+            text = videoDescription ,
+            color = MaterialTheme.colorScheme.primary,
+            textAlign = TextAlign.Center
         )
     }
 }

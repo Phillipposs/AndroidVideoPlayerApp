@@ -33,7 +33,7 @@ import com.example.videoapp.presentation.viewmodels.VideosListViewModel
 @Composable
 fun VideosScreen(
     viewModel: VideosListViewModel,
-    onVideoClick: (String) -> Unit
+    onVideoClick: (VideoResponse) -> Unit
 ) {
     val videosPagingItems: LazyPagingItems<VideoResponse> =
         viewModel.videosState.collectAsLazyPagingItems()
@@ -50,7 +50,7 @@ fun VideosScreen(
         content = {
             items(videosPagingItems.itemCount) { index ->
                 Column(Modifier.clickable {
-                    onVideoClick(videosPagingItems[index]!!.videos[0].embed)
+                    onVideoClick(videosPagingItems[index]!!)
                 }) {
                     AsyncImage(
                         model = videosPagingItems[index]!!.thumbnail,
