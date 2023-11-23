@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class VideosListViewModel @Inject constructor(
-    private val videosUseCases: VideosUseCases
+    val videosUseCases: VideosUseCases
 ) : ViewModel() {
     val videoURL = mutableStateOf("")
     val selectedVideo = mutableStateOf(VideoResponse())
