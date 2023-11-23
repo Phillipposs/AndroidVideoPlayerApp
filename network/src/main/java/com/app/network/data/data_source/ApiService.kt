@@ -7,6 +7,6 @@ import retrofit2.Response
 import retrofit2.http.GET
 
 interface ApiService {
-    @GET("${BASE_URL}?token=$TOKEN")
+    @GET("?token=$TOKEN")
     suspend fun getVideos() : NetworkResponse
 }

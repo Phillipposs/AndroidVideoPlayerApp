@@ -40,7 +40,6 @@ import com.google.android.exoplayer2.upstream.DefaultDataSource
 @Composable
 fun ExoPlayerScreen(navController: NavHostController, videoUrl: String, videoTitle : String, videoDescription : String) {
     BackHandler(true) {
-        // Or do nothing
         navController.navigateUp()
     }
     Column(modifier = Modifier.fillMaxSize(),
@@ -49,12 +48,6 @@ fun ExoPlayerScreen(navController: NavHostController, videoUrl: String, videoTit
     ) {
         val context = LocalContext.current
         val lifecycleOwner = rememberUpdatedState(LocalLifecycleOwner.current)
-//        val exoPlayer = ExoPlayer.Builder(context).build()
-//            .apply {
-//                setMediaItem(fromUri(videoURL))
-//                playWhenReady = true
-//                prepare()
-//            }
 
         val exoPlayer = remember {
             ExoPlayer.Builder(context)

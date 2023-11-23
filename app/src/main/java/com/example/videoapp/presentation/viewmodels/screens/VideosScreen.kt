@@ -39,7 +39,6 @@ fun VideosScreen(
         viewModel.videosState.collectAsLazyPagingItems()
     LazyVerticalGrid(
         columns = GridCells.Adaptive(128.dp),
-
         // content padding
         contentPadding = PaddingValues(
             start = 12.dp,
@@ -49,12 +48,11 @@ fun VideosScreen(
         ),
         content = {
             items(videosPagingItems.itemCount) { index ->
-                Column(Modifier.clickable {
+                Column(Modifier.padding(10.dp).clickable {
                     onVideoClick(videosPagingItems[index]!!)
                 }) {
                     AsyncImage(
                         model = videosPagingItems[index]!!.thumbnail,
-                        //modifier = Modifier.height(200.dp).fillParentMaxWidth(),
                         placeholder = painterResource(id = R.drawable.ic_launcher_background),
                         contentDescription = "The delasign logo",
                     )
@@ -66,13 +64,6 @@ fun VideosScreen(
                         textAlign = TextAlign.Center
                     )
                     Spacer(modifier = Modifier.height(20.dp))
-                    Divider(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 2.dp),
-                        color = Color.Gray,
-                        thickness = 1.dp
-                    )
                 }
 
             }

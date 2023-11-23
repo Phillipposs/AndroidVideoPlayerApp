@@ -3,7 +3,6 @@ package com.app.network.data.data_source
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.app.network.common.Constants.PAGE_NUMBER
 import retrofit2.HttpException
 import java.io.IOException
 
