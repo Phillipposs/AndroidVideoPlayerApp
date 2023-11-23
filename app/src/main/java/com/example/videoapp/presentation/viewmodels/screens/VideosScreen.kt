@@ -1,6 +1,6 @@
 package com.example.videoapp.presentation.viewmodels.screens
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -8,17 +8,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -26,7 +23,6 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
-import com.app.network.data.data_source.VideoListItem
 import com.app.network.data.data_source.VideoResponse
 import com.example.videoapp.R
 import com.example.videoapp.common.ErrorMessage
@@ -37,7 +33,7 @@ import com.example.videoapp.presentation.viewmodels.VideosListViewModel
 @Composable
 fun VideosScreen(
     viewModel: VideosListViewModel,
-    onVideoClick: () -> Unit
+    onVideoClick: (String) -> Unit
 ) {
     val videosPagingItems: LazyPagingItems<VideoResponse> =
         viewModel.videosState.collectAsLazyPagingItems()
@@ -53,7 +49,9 @@ fun VideosScreen(
         ),
         content = {
             items(videosPagingItems.itemCount) { index ->
-                Column() {
+                Column(Modifier.clickable {
+                    onVideoClick(videosPagingItems[index]!!.videos[0].embed)
+                }) {
                     AsyncImage(
                         model = videosPagingItems[index]!!.thumbnail,
                         //modifier = Modifier.height(200.dp).fillParentMaxWidth(),
