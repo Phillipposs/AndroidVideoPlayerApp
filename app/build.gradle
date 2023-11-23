@@ -39,6 +39,9 @@ android {
     buildFeatures {
         compose true
     }
+    configurations.all {
+        resolutionStrategy.force 'org.objenesis:objenesis:2.6'
+    }
     composeOptions {
         kotlinCompilerExtensionVersion '1.3.2'
     }
